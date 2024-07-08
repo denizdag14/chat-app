@@ -76,7 +76,7 @@ const handleSubmit = async (values: z.infer<typeof addFriendFormSchema>) => {
                     </FormItem>
                     } />
                     <DialogFooter>
-                        <Button disabled={false} type='submit'>Send</Button>
+                        <Button disabled={pending} type='submit'>Send</Button>
                     </DialogFooter>
                 </form>
             </Form>
