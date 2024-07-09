@@ -59,10 +59,10 @@ export const create = mutation({
         .query("friends")
         .withIndex("by_user2", q => q.eq("user2", currentUser._id))
         .collect()
-        
-        if(
-            friends1.some(friend => friend.user2 === receiver._id || friends2.some(friend => friend.user1 === receiver._id))
-        ) {
+
+        const friends = [...friends1, ...friends2];
+
+        if (friends.some(friend => (friend.user1 === receiver._id || friend.user2 === receiver._id))) {
             throw new ConvexError("You are already friends with this user");
         }
 
