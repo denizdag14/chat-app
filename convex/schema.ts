@@ -25,7 +25,7 @@ export default defineSchema({
     })
     .index("by_user1", ["user1"])
     .index("by_user2", ["user2"])
-    .index("by_conversations", ["conversationId"]),
+    .index("by_conversationId", ["conversationId"]),
 
     conversations: defineTable({
         name: v.optional(v.string()),
