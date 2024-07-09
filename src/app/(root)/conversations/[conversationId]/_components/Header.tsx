@@ -27,7 +27,7 @@ const Header = ({imageUrl, name, options}: Props) => {
             <Avatar className='h-8 w-8'>
                 <AvatarImage src={imageUrl} />
                 <AvatarFallback>
-                    {name.substring(0,1)}
+                    {name.substring(0,1).toLocaleUpperCase()}
                 </AvatarFallback>
             </Avatar>
             <h2 className='font-bold'>

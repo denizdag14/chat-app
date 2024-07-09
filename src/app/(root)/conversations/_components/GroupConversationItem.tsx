@@ -2,31 +2,27 @@ import React from 'react'
 import { Id } from '../../../../../convex/_generated/dataModel'
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User } from 'lucide-react';
-
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 type Props = {
     id: Id<"conversations">;
-    imageUrl: string;
-    username: string;
+    name: string;
     lastMessageSender?: string;
     lastMessageContent?: string;
 }
 
-const DMConversationItem = ({id, imageUrl, username, lastMessageSender, lastMessageContent}: Props) => {
+const GroupConversationItem = ({id, name, lastMessageSender, lastMessageContent}: Props) => {
   return (
     <Link href={`/conversations/${id}`} className='w-full mb-2'>
         <Card className='p-2 flex flexc-row items-center gap-4 truncate'>
             <div className='flex flex-row items-center gap-4 truncate'>
                 <Avatar>
-                    <AvatarImage src={imageUrl} />
                     <AvatarFallback>
-                        <User />
+                        {name.charAt(0).toLocaleUpperCase()}
                     </AvatarFallback>
                 </Avatar>
                 <div className='flex flex-col truncate'>
                     <h4 className='truncate'>
-                        {username}
+                        {name}
                     </h4>
                     {
                         lastMessageSender && lastMessageContent ? (
@@ -52,4 +48,4 @@ const DMConversationItem = ({id, imageUrl, username, lastMessageSender, lastMess
   )
 }
 
-export default DMConversationItem
+export default GroupConversationItem
