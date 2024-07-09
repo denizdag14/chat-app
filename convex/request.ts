@@ -139,11 +139,11 @@ export const accept = mutation({
             conversationId,
         })
 
-        await ctx.db.insert("conversationMemebers", {
+        await ctx.db.insert("conversationMembers", {
             memberId: currentUser._id,
             conversationId
         })
-        await ctx.db.insert("conversationMemebers", {
+        await ctx.db.insert("conversationMembers", {
             memberId: request.sender,
             conversationId
         })

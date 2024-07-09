@@ -33,7 +33,7 @@ export default defineSchema({
         lastMessageId: v.optional(v.id("messages"))
     }),
 
-    conversationMemebers: defineTable({
+    conversationMembers: defineTable({
         memberId: v.id("users"),
         conversationId: v.id("conversations"),
         lastSeenMessage: v.optional(v.id("messages")),

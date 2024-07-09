@@ -7,6 +7,8 @@ import AddFriendDialog from './_components/AddFriendDialog'
 import { useQuery } from 'convex/react'
 import { api } from '../../../../convex/_generated/api'
 import { Loader2 } from 'lucide-react'
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import Request from './_components/Request'
 
 type Props = {}
@@ -33,7 +35,11 @@ const FriendsPage = (props: Props) => {
               />
             )
             })
-          ) : <Loader2 className='h-8 w-8' />
+          ) : (
+            <Box className="w-full h-full items-center justify-center" sx={{ display: 'flex' }}>
+              <CircularProgress />
+            </Box>
+          )
         }
       </ItemList>
       <ConversationFallback />
