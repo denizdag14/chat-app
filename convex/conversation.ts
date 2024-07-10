@@ -56,6 +56,7 @@ export const get = query({args: {
             }
 
             return {
+                _id: membership._id,
                 username: member.username,
             }
         })))

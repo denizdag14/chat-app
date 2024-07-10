@@ -24,7 +24,6 @@ const Body = ({members}: Props) => {
 
     const messages = useQuery(api.messages.get, {
         id: conversationId as Id<"conversations">,
-
     });
 
     useEffect(() => {
