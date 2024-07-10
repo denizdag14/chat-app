@@ -21,7 +21,7 @@ const DesktopNav = () => {
                 <Link href={path.href}>
                   <Tooltip>
                     <TooltipTrigger>
-                      <Button size="icon" variant={path.active ? "default" : "outline"}>
+                      <Button className="border" size="icon" variant={path.active ? "default" : "secondary"}>
                         {path.icon}
                       </Button>
                       {path.count ? (

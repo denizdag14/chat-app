@@ -28,7 +28,7 @@ const GroupConversationItem = ({id, name, lastMessageSender, lastMessageContent,
     }
   return (
     <Link href={`/conversations/${id}`} className='w-full mb-2'>
-        <Card className='p-2 flex flexc-row items-center justify-between'>
+        <Card className='p-2 flex flexc-row bg-secondary hover:bg-secondary/50 items-center justify-between'>
             <div className='flex flex-row items-center gap-4 truncate'>
                 <Avatar>
                     <AvatarFallback>

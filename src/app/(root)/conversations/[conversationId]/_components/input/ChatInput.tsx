@@ -65,7 +65,7 @@ const ChatInput = () => {
         })
     }
   return (
-    <Card className='w-full p-2 rounded-lg relative'>
+    <Card className='w-full p-2 rounded-lg relative bg-secondary'>
         {showEmojiPicker && (
             <div className="absolute bottom-full mb-2">
                 <EmojiPicker theme={theme === 'dark' ? EmojiTheme.DARK : EmojiTheme.LIGHT} onEmojiClick={handleEmojiClick} />
@@ -87,7 +87,7 @@ const ChatInput = () => {
                         name="content" 
                         render={({field}) => {
                             return (
-                            <FormItem className='h-full w-full'>
+                            <FormItem className='h-full w-full flex justify-center'>
                                 <FormControl>
                                     <TextareaAutosize 
                                         onKeyDown={async e => {
@@ -101,7 +101,7 @@ const ChatInput = () => {
                                         onChange={handleInputChange} 
                                         onClick={handleInputChange}
                                         placeholder='Type a message...'
-                                        className='min-h-full w-full resize-none border-0 outline-0 bg-card text-card-foreground placeholder:text-muted-foreground p-1.5'
+                                        className='min-h-full w-full resize-none border-0 outline-0 bg-secondary rounded-lg text-card-foreground placeholder:text-muted-foreground p-1.5'
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -113,8 +113,9 @@ const ChatInput = () => {
                         disabled={pending}
                         size="icon"
                         type='submit'
+                        className='rounded-2xl'
                     >
-                        <SendHorizonal />
+                        <SendHorizonal className='w-5 h-5' />
                     </Button>
                 </form>
             </Form>

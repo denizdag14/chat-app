@@ -24,7 +24,7 @@ const MobileNav = () => {
                 <Link href={path.href}>
                   <Tooltip>
                     <TooltipTrigger>
-                      <Button size="icon" variant={path.active ? "default" : "outline"}>
+                      <Button size="icon" variant={path.active ? "default" : "secondary"}>
                         {path.icon}
                       </Button>
                       {path.count ? (

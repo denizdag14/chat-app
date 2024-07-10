@@ -44,7 +44,7 @@ const handleSubmit = async (values: z.infer<typeof addFriendFormSchema>) => {
     <Dialog>
         <Tooltip>
             <TooltipTrigger>
-                <Button size="icon" variant="outline">
+                <Button className='hover:bg-gray-200 dark:hover:bg-zinc-800 border mb-2' size="icon" variant="secondary">
                     <DialogTrigger>
                         <UserPlus />
                     </DialogTrigger>

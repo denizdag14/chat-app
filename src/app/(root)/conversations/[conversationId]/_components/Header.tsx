@@ -47,7 +47,7 @@ const Header = ({imageUrl, name, options}: Props) => {
                             {
                                 options.map((option, id) => {
                                     return (
-                                        <DropdownMenuItem key={id} onClick={option.onClick} className={cn("font-semibold", {
+                                        <DropdownMenuItem key={id} onClick={option.onClick} className={cn("font-semibold cursor-pointer", {
                                             "text-destructive": option.destructive,
                                         })} >
                                             {option.label}
