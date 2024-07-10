@@ -4,8 +4,8 @@ import React from 'react'
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { Authenticated, AuthLoading, ConvexReactClient, Unauthenticated } from "convex/react";
 import LoadingLogo from '@/components/shared/LoadingLogo';
-import { ClerkProvider, useAuth, SignInButton, SignOutButton } from '@clerk/nextjs'
-import { Button } from '@/components/ui/button';
+import { ClerkProvider, useAuth, SignInButton } from '@clerk/nextjs'
+import SignInPage from '@/components/shared/SignInPage';
 
 type Props = {
     children: React.ReactNode;
@@ -27,9 +27,7 @@ const ConvexClientProvider = ({children}: Props) => {
             </AuthLoading>
             <div className='flex h-screen items-center justify-center'>
                 <Unauthenticated>
-                    <Button>
-                        <SignInButton />
-                    </Button>
+                    <SignInPage />
                 </Unauthenticated>
             </div>
         </ConvexProviderWithClerk>
