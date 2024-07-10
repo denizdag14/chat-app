@@ -12,6 +12,7 @@ import FriendCard from './_components/FriendCard'
 import { Tabs, Tab } from '@mui/material'
 import RemoveFriendDialog from './_components/RemoveFriendDialog'
 import { Id } from '../../../../convex/_generated/dataModel'
+import { User, UserPlus } from 'lucide-react'
 
 type Props = {}
 
@@ -88,10 +89,22 @@ const FriendsPage = (props: Props) => {
   return (
     <>
       <ItemList title='Friends' action={<AddFriendDialog />}>
-        <Tabs className='mb-2' value={activeTab} onChange={handleTabChange} centered>
-          <Tab label="Friends" />
-          <Tab label="Friend Requests" />
-        </Tabs>
+        <Box sx={{ width: '100%' }}>
+          <Tabs 
+            value={activeTab} 
+            onChange={handleTabChange} 
+            variant="fullWidth"
+            sx={{
+              mb: 1,
+              '& .MuiTabs-flexContainer': {
+                justifyContent: 'space-between',
+              },
+            }}
+          >
+            <Tab icon={<User />} aria-label="Friends" />
+            <Tab icon={<UserPlus />} aria-label="Friend Requests" />
+          </Tabs>
+        </Box>
         {renderContent()}
       </ItemList>
       <ConversationFallback />
