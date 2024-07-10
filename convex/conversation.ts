@@ -69,6 +69,7 @@ export const get = query({
                     return {
                         _id: m._id,
                         username: member.username,
+                        imageUrl: member.imageUrl
                     };
                 }));
 

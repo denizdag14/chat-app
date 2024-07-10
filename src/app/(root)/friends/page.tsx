@@ -9,7 +9,7 @@ import { api } from '../../../../convex/_generated/api'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import FriendCard from './_components/FriendCard'
-import { Tabs, Tab } from '@mui/material'
+import { Tabs, Tab, Tooltip } from '@mui/material'
 import RemoveFriendDialog from './_components/RemoveFriendDialog'
 import { Id } from '../../../../convex/_generated/dataModel'
 import { User, UserPlus } from 'lucide-react'
@@ -103,8 +103,12 @@ const FriendsPage = (props: Props) => {
               },
             }}
           >
-            <Tab className='dark:text-inherit' icon={<User />} aria-label="Friends" />
-            <Tab className='dark:text-inherit' icon={<UserPlus />} aria-label="Friend Requests" />
+            <Tooltip title="Friends" arrow>
+              <Tab className='dark:text-inherit' icon={<User />} aria-label="Friends" />
+            </Tooltip>
+            <Tooltip title="Friend Requests" arrow>
+              <Tab className='dark:text-inherit' icon={<UserPlus />} aria-label="Friend Requests" />
+            </Tooltip>
             {
               requestsCount ? (
                 <Badge 
@@ -112,7 +116,6 @@ const FriendsPage = (props: Props) => {
                 >
                   {requestsCount}
                 </Badge>
-              
               ) : null
             }
           </Tabs>

@@ -28,6 +28,13 @@ const ConversationPage = ({params: {conversationId}}: Props) => {
   const router = useRouter()
   const [callType, setCallType] = useState<"audio" | "video" | null>(null)
 
+  const headerMembers = conversation?.isGroup && conversation.otherMembers
+    ? conversation.otherMembers.map(member => ({
+        name: member.username,
+        imageUrl: member.imageUrl
+      }))
+    : undefined;
+
   return conversation === undefined ? (
     <Box className="w-full h-full items-center justify-center" sx={{ display: 'flex' }}>
       <CircularProgress />
@@ -43,6 +50,8 @@ const ConversationPage = ({params: {conversationId}}: Props) => {
         <Header 
         name={(conversation.isGroup ? conversation.name : conversation.otherMember?.username) || ""} 
         imageUrl={conversation.isGroup ? undefined : conversation.otherMember?.imageUrl} 
+        isGroup={conversation.isGroup}
+        members={headerMembers}
         options = {conversation.isGroup ? [
           {
             label: "Leave group",
