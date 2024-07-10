@@ -13,10 +13,12 @@ import { Tabs, Tab } from '@mui/material'
 import RemoveFriendDialog from './_components/RemoveFriendDialog'
 import { Id } from '../../../../convex/_generated/dataModel'
 import { User, UserPlus } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 
 type Props = {}
 
 const FriendsPage = (props: Props) => {
+  const requestsCount = useQuery(api.requests.count)
   const [activeTab, setActiveTab] = useState(0)
   const [removeFriendDialogOpen, setRemoveFriendDialogOpen] = useState(false)
   const [removeFriendConversationId, setRemoveFriendConversationId] = useState<Id<"conversations">>();
@@ -101,8 +103,18 @@ const FriendsPage = (props: Props) => {
               },
             }}
           >
-            <Tab icon={<User />} aria-label="Friends" />
-            <Tab icon={<UserPlus />} aria-label="Friend Requests" />
+            <Tab className='dark:text-inherit' icon={<User />} aria-label="Friends" />
+            <Tab className='dark:text-inherit' icon={<UserPlus />} aria-label="Friend Requests" />
+            {
+              requestsCount ? (
+                <Badge 
+                  className="absolute border hover:bg-destructive bg-destructive right-4 top-4 px-2"
+                >
+                  {requestsCount}
+                </Badge>
+              
+              ) : null
+            }
           </Tabs>
         </Box>
         {renderContent()}

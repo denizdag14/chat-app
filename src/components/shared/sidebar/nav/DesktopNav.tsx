@@ -25,7 +25,7 @@ const DesktopNav = () => {
                         {path.icon}
                       </Button>
                       {path.count ? (
-                        <Badge className="absolute border border-white dark:border-black left-6 bottom-7 px-2">{path.count}</Badge>
+                        <Badge className="absolute border hover:bg-destructive bg-destructive left-6 bottom-7 px-2">{path.count}</Badge>
                       ) : (
                         null
                       )}
