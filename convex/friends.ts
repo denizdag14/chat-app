@@ -23,6 +23,10 @@ export const get = query({args: {}, handler: async (ctx, args) => {
 
     const friendships = [...friendships1, ...friendships2]
 
+    const conversationIds = friendships.map(friendship => {
+        return friendship.conversationId
+    })
+
     const friends = await Promise.all(friendships.map(async friendship => {
         const friend = await ctx.db.get(friendship.user1 === currentUser._id ? friendship.user2 : friendship.user1)
 
@@ -30,7 +34,10 @@ export const get = query({args: {}, handler: async (ctx, args) => {
             throw new ConvexError("Friend could not be found")
         }
 
-        return friend
+        return {
+            friend,
+            conversationId: friendship.conversationId,
+        }
     }))
 
     return friends;

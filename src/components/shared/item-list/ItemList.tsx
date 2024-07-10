@@ -17,7 +17,9 @@ const ItemList = ({ children, title, action: Action }: Props) => {
         "block": !isActive,
         "lg:block": isActive,
     })}>
-        <div className='mb-4 border-b flex items-center justify-between'>
+        <div className={cn("border-b flex items-center justify-between", {
+            "mb-2": title === "Conversations"
+        })}>
             <h1 className='text-2xl font-semibold tracking-tight'>
                 {title}
             </h1>

@@ -9,7 +9,7 @@ import { Box, CircularProgress } from '@mui/material'
 import Header from './_components/Header'
 import Body from './_components/body/Body'
 import ChatInput from './_components/input/ChatInput'
-import RemoveFriendDialog from './_components/dialogs/RemoveFriendDialog'
+import DeleteConversationDialog from './_components/dialogs/DeleteConversation'
 import DeleteGroupDialog from './_components/dialogs/DeleteGroupDialog'
 import LeaveGroupDialog from './_components/dialogs/LeaveGroupDialog'
 
@@ -21,8 +21,7 @@ type Props = {
 
 const ConversationPage = ({params: {conversationId}}: Props) => {
   const conversation = useQuery(api.conversation.get, { id: conversationId})
-
-  const [removeFriendDialogOpen, setRemoveFriendDialogOpen] = useState(false)
+  const [deleteConversationDialogOpen, setDeleteConversationDialogOpen] = useState(false)
   const [deleteGroupDialogOpen, setDeleteGroupDialogOpen] = useState(false)
   const [leaveGroupDialogOpen, setLeaveGroupDialogOpen] = useState(false)
   const [callType, setCallType] = useState<"audio" | "video" | null>(null)
@@ -38,7 +37,7 @@ const ConversationPage = ({params: {conversationId}}: Props) => {
       </p>
     ) : (
       <ConversationContainer>
-        <RemoveFriendDialog conversationId={conversationId} open={removeFriendDialogOpen} setOpen={setRemoveFriendDialogOpen} />
+        <DeleteConversationDialog conversationId={conversationId} open={deleteConversationDialogOpen} setOpen={setDeleteConversationDialogOpen} />
         <LeaveGroupDialog conversationId={conversationId} open={leaveGroupDialogOpen} setOpen={setLeaveGroupDialogOpen} />
         <DeleteGroupDialog conversationId={conversationId} open={deleteGroupDialogOpen} setOpen={setDeleteGroupDialogOpen} />
         <Header 
@@ -57,9 +56,9 @@ const ConversationPage = ({params: {conversationId}}: Props) => {
           },
         ] : [
           {
-            label: "Remove friend",
+            label: "Delete conversation",
             destructive: true,
-            onClick: () => setRemoveFriendDialogOpen(true),
+            onClick: () => setDeleteConversationDialogOpen(true),
           },
         ]}
         />

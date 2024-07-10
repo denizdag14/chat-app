@@ -14,14 +14,14 @@ type Props = {
     setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const RemoveFriendDialog = ({conversationId, open, setOpen}: Props) => {
-    const {mutate: removeFriend, pending} = useMutationState(api.friend.remove)
+const DeleteConversationDialog = ({conversationId, open, setOpen}: Props) => {
+    const {mutate: deleteConversation, pending} = useMutationState(api.conversation.deleteConversation)
 
-    const handleRemoveFriend = async () => {
-        removeFriend({conversationId}).then(() => {
-            toast.success("Removed friend")
+    const handleDeleteConversation = async () => {
+        deleteConversation({conversationId}).then(() => {
+            toast.success("Delete conversation successfully")
         }).catch(error => {
-            toast.error(error instanceof ConvexError ? error.data : "Unexpecter error occurred")
+            toast.error(error instanceof ConvexError ? error.data : "Unexpected error occurred")
         })
     }
   return (
@@ -32,14 +32,14 @@ const RemoveFriendDialog = ({conversationId, open, setOpen}: Props) => {
                     Are you sure?
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                    This action cannot be undone. All messages will be deleted and you will not be able to message this user. All group chats will still work as normal.
+                    This action cannot be undone. All messages will be deleted.
                 </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
                 <AlertDialogCancel disabled={pending}>
                     Cancel
                 </AlertDialogCancel>
-                <AlertDialogAction disabled={pending} onClick={handleRemoveFriend}>
+                <AlertDialogAction disabled={pending} onClick={handleDeleteConversation}>
                     Delete
                 </AlertDialogAction>
             </AlertDialogFooter>
@@ -48,4 +48,4 @@ const RemoveFriendDialog = ({conversationId, open, setOpen}: Props) => {
   )
 }
 
-export default RemoveFriendDialog
+export default DeleteConversationDialog

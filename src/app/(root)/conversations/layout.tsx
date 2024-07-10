@@ -14,8 +14,8 @@ type Props = React.PropsWithChildren<{}>
 const ConversationsLayout = ({ children }: Props) => {
   const conversations = useQuery(api.conversations.get)
   const sortedConversations = conversations ? [...conversations].sort((a, b) => {
-    const aTime = a.lastMessageTime ? new Date(a.lastMessageTime).getTime() : 0
-    const bTime = b.lastMessageTime ? new Date(b.lastMessageTime).getTime() : 0
+    const aTime = a.lastMessageTime ? new Date(a.lastMessageTime).getTime() : new Date(a.conversation._creationTime).getTime()
+    const bTime = b.lastMessageTime ? new Date(b.lastMessageTime).getTime() : new Date(b.conversation._creationTime).getTime()
     return bTime - aTime
   }) : []
   return (
