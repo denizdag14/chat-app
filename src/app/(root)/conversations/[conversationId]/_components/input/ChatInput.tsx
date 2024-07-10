@@ -3,7 +3,7 @@
 import { Card } from '@/components/ui/card'
 import { useConversation } from '@/hooks/useConversation'
 import { useMutationState } from '@/hooks/useMutationState'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { z } from 'zod'
 import { api } from '../../../../../../../convex/_generated/api'
 import { useForm } from 'react-hook-form'
@@ -13,7 +13,9 @@ import { toast } from 'sonner'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import TextareaAutosize from "react-textarea-autosize"
 import { Button } from '@/components/ui/button'
-import { SendHorizonal } from 'lucide-react'
+import { SendHorizonal, Smile } from 'lucide-react'
+import EmojiPicker, { Theme as EmojiTheme } from 'emoji-picker-react';
+import { useTheme } from 'next-themes'
 
 const chatMessageSchema = z.object({
     content: z.string().min(1, {message: "This field cannot be empty"})
@@ -22,6 +24,8 @@ const chatMessageSchema = z.object({
 const ChatInput = () => {
     const textareaRef = useRef<HTMLTextAreaElement | null>(null)
     const { conversationId } = useConversation();
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+    const { theme } = useTheme()
     const { mutate: createMessage, pending } = useMutationState(api.message.create)
     const form = useForm<z.infer<typeof chatMessageSchema>>({
         resolver: zodResolver(chatMessageSchema),
@@ -29,6 +33,17 @@ const ChatInput = () => {
             content: "",
         },
     })
+
+    const handleEmojiClick = (emojiObject: any) => {
+        const cursor = textareaRef.current?.selectionStart;
+        const text = form.getValues("content");
+        if (cursor !== undefined) {
+            const newText = text.slice(0, cursor) + emojiObject.emoji + text.slice(cursor);
+            form.setValue("content", newText);
+        } else {
+            form.setValue("content", text + emojiObject.emoji);
+        }
+    }
 
     const handleInputChange = (event: any) => {
         const {value, selectionStart} = event.target;
@@ -51,9 +66,22 @@ const ChatInput = () => {
     }
   return (
     <Card className='w-full p-2 rounded-lg relative'>
+        {showEmojiPicker && (
+            <div className="absolute bottom-full mb-2">
+                <EmojiPicker theme={theme === 'dark' ? EmojiTheme.DARK : EmojiTheme.LIGHT} onEmojiClick={handleEmojiClick} />
+            </div>
+        )}
         <div className='flex gap-2 items-end w-full'>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className='flex gap-2 items-end w-full'>
+                    <Button 
+                        type="button"
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                    >
+                        <Smile />
+                    </Button>
                     <FormField 
                         control={form.control} 
                         name="content" 
