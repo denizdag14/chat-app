@@ -12,6 +12,7 @@ import ChatInput from './_components/input/ChatInput'
 import DeleteConversationDialog from './_components/dialogs/DeleteConversation'
 import DeleteGroupDialog from './_components/dialogs/DeleteGroupDialog'
 import LeaveGroupDialog from './_components/dialogs/LeaveGroupDialog'
+import { useRouter } from 'next/navigation'
 
 type Props = {
   params: {
@@ -24,6 +25,7 @@ const ConversationPage = ({params: {conversationId}}: Props) => {
   const [deleteConversationDialogOpen, setDeleteConversationDialogOpen] = useState(false)
   const [deleteGroupDialogOpen, setDeleteGroupDialogOpen] = useState(false)
   const [leaveGroupDialogOpen, setLeaveGroupDialogOpen] = useState(false)
+  const router = useRouter()
   const [callType, setCallType] = useState<"audio" | "video" | null>(null)
 
   return conversation === undefined ? (
@@ -32,9 +34,7 @@ const ConversationPage = ({params: {conversationId}}: Props) => {
     </Box>
   ) : (
     conversation === null ? (
-      <p className="w-full h-full items-center justify-center">
-        Conversation not found
-      </p>
+      router.push("/conversations")
     ) : (
       <ConversationContainer>
         <DeleteConversationDialog conversationId={conversationId} open={deleteConversationDialogOpen} setOpen={setDeleteConversationDialogOpen} />

@@ -9,6 +9,7 @@ import { api } from '../../../../../convex/_generated/api';
 import { toast } from 'sonner';
 import { ConvexError } from 'convex/values';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { useRouter } from 'next/navigation';
 
 type Props = {
     id: Id<"requests"> | Id<"users">;
@@ -25,6 +26,8 @@ type Props = {
 const FriendCard = ({ id, imageUrl, username, email, isRequest, removeFriendDialog }: Props) => {
     const { mutate: denyRequest, pending: denyPending } = useMutationState(api.request.deny)
     const { mutate: acceptRequest, pending: acceptPending } = useMutationState(api.request.accept)
+    const { mutate: createConversationRequest, pending: createConversationPending } = useMutationState(api.conversation.createConversation)
+    const router = useRouter();
   return (
     <Card className='w-full p-2 flex bg-secondary flex-row items-center justify-between mb-2 gap-2'>
         <div className='flex items-center gap-4 truncate'>
@@ -95,10 +98,11 @@ const FriendCard = ({ id, imageUrl, username, email, isRequest, removeFriendDial
                     <>
                         <Tooltip>
                             <TooltipTrigger>
-                                <Button className='w-7 h-7' size="icon" disabled={denyPending || acceptPending} variant="default" onClick={() => {
-                                    denyRequest({id})
-                                    .then(() => {
+                                <Button className='w-7 h-7' size="icon" disabled={createConversationPending} variant="default" onClick={() => {
+                                    createConversationRequest({id})
+                                    .then((conversationId) => {
                                         toast.success("Successfully started a conversation with " + username);
+                                        router.push(`/conversations/${conversationId}`)
                                     })
                                     .catch((error) => {
                                         toast.error(

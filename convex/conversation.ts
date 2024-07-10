@@ -263,7 +263,7 @@ export const markRead = mutation({
         const membership = await ctx.db.query("conversationMembers").withIndex("by_memberId_conversationId", q => q.eq("memberId", currentUser._id).eq("conversationId", args.conversationId)).unique()
 
         if(!membership) {
-            throw new ConvexError("You are not a member of this group")
+            return null
         }
 
         const lastMessage = await ctx.db.get(args.messageId)
@@ -271,6 +271,68 @@ export const markRead = mutation({
         await ctx.db.patch(membership._id, {
             lastSeenMessage: lastMessage ? lastMessage._id : undefined,
         })
+
+    }
+})
+
+export const createConversation = mutation({
+    args: {
+        id: v.id("users")
+    }, handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if(!identity) {
+            throw new ConvexError("Unauthorized");
+        }
+
+        const currentUser = await getUserByClerkId({
+            ctx, clerkId: identity.subject
+        })
+
+        if(!currentUser) {
+            throw new ConvexError("User not found");
+        }
+
+        const friend = await ctx.db.get(args.id);
+
+        if(!friend){
+            throw new ConvexError("There was an error starting the conversation")
+        }
+
+        const existingConversationMemberships = await ctx.db
+            .query("conversationMembers")
+            .withIndex("by_memberId", (q) => q.eq("memberId", currentUser._id))
+            .collect();
+
+        for (const membership of existingConversationMemberships) {
+            const conversation = await ctx.db.get(membership.conversationId);
+            if (!conversation?.isGroup) {
+                const otherMember = await ctx.db
+                    .query("conversationMembers")
+                    .withIndex("by_conversationId", (q) => q.eq("conversationId", membership.conversationId))
+                    .filter((q) => q.neq(q.field("memberId"), currentUser._id))
+                    .unique();
+
+                if (otherMember && otherMember.memberId === friend._id) {
+                    throw new ConvexError("A conversation already exists with this user");
+                }
+            }
+        }
+
+        const conversationId = await ctx.db.insert("conversations", {
+            isGroup: false
+        })
+
+        await ctx.db.insert("conversationMembers", {
+            memberId: currentUser._id,
+            conversationId
+        })
+        await ctx.db.insert("conversationMembers", {
+            memberId: friend._id,
+            conversationId
+        })
+
+        return conversationId
 
     }
 })
