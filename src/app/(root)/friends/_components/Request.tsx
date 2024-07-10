@@ -20,7 +20,7 @@ const Request = ({ id, imageUrl, username, email }: Props) => {
     const { mutate: denyRequest, pending: denyPending } = useMutationState(api.request.deny)
     const { mutate: acceptRequest, pending: acceptPending } = useMutationState(api.request.accept)
   return (
-    <Card className='w-full p-2 flex flex-row items-center justify-between gap-2'>
+    <Card className='w-full p-2 flex bg-secondary flex-row items-center justify-between mb-2 gap-2'>
         <div className='flex items-center gap-4 truncate'>
             <Avatar>
                 <AvatarImage src={imageUrl} />
@@ -38,7 +38,7 @@ const Request = ({ id, imageUrl, username, email }: Props) => {
             </div>
         </div>
         <div className='flex items-center gap-2'>
-            <Button size="icon" disabled={denyPending || acceptPending} onClick={() => {
+            <Button className='w-7 h-7' size="icon" disabled={denyPending || acceptPending} onClick={() => {
                 acceptRequest({id})
                 .then(() => {
                     toast.success("Friend request accepted");
@@ -50,9 +50,9 @@ const Request = ({ id, imageUrl, username, email }: Props) => {
                     )
                 })
             }}>
-                <Check />
+                <Check className='h-4 w-4' />
             </Button>
-            <Button size="icon" disabled={denyPending || acceptPending} variant="destructive" onClick={() => {
+            <Button className='w-7 h-7' size="icon" disabled={denyPending || acceptPending} variant="destructive" onClick={() => {
                 denyRequest({id})
                 .then(() => {
                     toast.success("Friend request denied");
@@ -66,6 +66,7 @@ const Request = ({ id, imageUrl, username, email }: Props) => {
             }}>
                 <X className='h-4 w-4' />
             </Button>
+            
         </div>
     </Card>
   )

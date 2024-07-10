@@ -13,36 +13,41 @@ type Props = React.PropsWithChildren<{}>
 
 const ConversationsLayout = ({ children }: Props) => {
   const conversations = useQuery(api.conversations.get)
+  const sortedConversations = conversations ? [...conversations].sort((a, b) => {
+    const aTime = a.lastMessageTime ? new Date(a.lastMessageTime).getTime() : 0
+    const bTime = b.lastMessageTime ? new Date(b.lastMessageTime).getTime() : 0
+    return bTime - aTime
+  }) : []
   return (
     <>
       <ItemList title='Conversations' action={<CreateGroupDialog />}>
         {
-          conversations ? conversations.length === 0 ? (
+          conversations ? sortedConversations.length === 0 ? (
             <p className='w-full h-full flex items-center justify-center'>
               No conversations found
             </p>
           ) : (
-            conversations.map(conversations => {
-              return conversations.conversation.isGroup ? (
+            sortedConversations.map(sortedConversations => {
+              return sortedConversations.conversation.isGroup ? (
                 <GroupConversationItem 
-                  key={conversations.conversation._id} 
-                  id={conversations.conversation._id} 
-                  name={conversations.conversation.name || ""}
-                  lastMessageContent={conversations.lastMessage?.content}
-                  lastMessageSender={conversations.lastMessage?.sender}
-                  unseenCount={conversations.unseenCount}
-                  lastMessageTime={conversations.lastMessageTime}
+                  key={sortedConversations.conversation._id} 
+                  id={sortedConversations.conversation._id} 
+                  name={sortedConversations.conversation.name || ""}
+                  lastMessageContent={sortedConversations.lastMessage?.content}
+                  lastMessageSender={sortedConversations.lastMessage?.sender}
+                  unseenCount={sortedConversations.unseenCount}
+                  lastMessageTime={sortedConversations.lastMessageTime}
                 />
               ) : (
                 <DMConversationItem
-                  key={conversations.conversation._id} 
-                  id={conversations.conversation._id} 
-                  username={conversations.otherMember?.username || ""}
-                  imageUrl={conversations.otherMember?.imageUrl || ""}
-                  lastMessageContent={conversations.lastMessage?.content}
-                  lastMessageSender={conversations.lastMessage?.sender}
-                  unseenCount={conversations.unseenCount}
-                  lastMessageTime={conversations.lastMessageTime}
+                  key={sortedConversations.conversation._id} 
+                  id={sortedConversations.conversation._id} 
+                  username={sortedConversations.otherMember?.username || ""}
+                  imageUrl={sortedConversations.otherMember?.imageUrl || ""}
+                  lastMessageContent={sortedConversations.lastMessage?.content}
+                  lastMessageSender={sortedConversations.lastMessage?.sender}
+                  unseenCount={sortedConversations.unseenCount}
+                  lastMessageTime={sortedConversations.lastMessageTime}
                 />
               )
             })
