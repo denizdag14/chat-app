@@ -35,7 +35,7 @@ const Message = ({
             "order-1 items-end": fromCurrentUser,
             "order-2 items-start": !fromCurrentUser,
         })}>
-            <div className={cn("px-4 py-2 rounded-lg max-w-[70%]", {
+            <div className={cn("flex items-center justify-between px-4 py-2 rounded-full max-w-[70%]", {
                 "bg-primary text-primary-foreground": fromCurrentUser,
                 "bg-secondary text-secondary-foreground": !fromCurrentUser,
                 "rounded-br-none": !lastByUser && fromCurrentUser,
@@ -43,14 +43,14 @@ const Message = ({
             })}>
                 {
                     type === "text" ? (
-                        <p className='text-wrap break-words whitespace-pre-wrap break-all'>
+                        <p className='text-wrap text-xs sm:text-sm break-words whitespace-pre-wrap break-all'>
                             {content}
                         </p>
                     ) : (
                         null
                     )
                 }
-                <p className={cn("flex w-full mt-1 text-xs", {
+                <p className={cn("flex ml-2 mt-1 text-xs", {
                     "text-primary-foreground/50 justify-end": fromCurrentUser,
                     "text-secondary-foreground/60 justify-start": !fromCurrentUser
                 })}>
@@ -60,6 +60,7 @@ const Message = ({
             {seen}
         </div>
         <Avatar className={cn("relative w-8 h-8", {
+            "hidden sm:flex": fromCurrentUser,
             "order-2": fromCurrentUser,
             "order-1": !fromCurrentUser,
             "invisible": lastByUser

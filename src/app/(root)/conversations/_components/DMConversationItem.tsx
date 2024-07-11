@@ -13,7 +13,7 @@ type Props = {
     imageUrl: string;
     username: string;
     lastMessageSender?: string;
-    lastMessageContent?: string;
+    lastMessageContent?: string[];
     unseenCount: number;
     lastMessageTime?: number;
 }

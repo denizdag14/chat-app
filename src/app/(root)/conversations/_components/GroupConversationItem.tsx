@@ -10,7 +10,7 @@ type Props = {
     id: Id<"conversations">;
     name: string;
     lastMessageSender?: string;
-    lastMessageContent?: string;
+    lastMessageContent?: string[];
     unseenCount: number;
     lastMessageTime?: number;
 }
