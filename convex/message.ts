@@ -1,12 +1,13 @@
 import { ConvexError, v } from "convex/values";
 import { mutation } from "./_generated/server";
 import { getUserByClerkId } from "./_utils";
+import CryptoJS from "crypto-js";
 
 export const create = mutation({
     args: {
         conversationId: v.id("conversations"),
         type: v.string(),
-       content: v.array(v.string()),
+        content: v.array(v.string()),
     }, handler: async (ctx, args) =>  {
         const identity = await ctx.auth.getUserIdentity()
 
@@ -28,9 +29,16 @@ export const create = mutation({
             throw new ConvexError("You are not allowed to see this conversation")
         }
 
+        const secretKey = process.env.CRYPTO_SECRET_KEY || "";
+        const encryptedContent = args.content.map(message =>
+            CryptoJS.AES.encrypt(message, secretKey).toString()
+        );
+
         const message = await ctx.db.insert("messages", {
             senderId: currentUser._id,
-            ...args
+            content: encryptedContent,
+            type: args.type,
+            conversationId: args.conversationId
         })
 
         await ctx.db.patch(args.conversationId, {lastMessageId: message})

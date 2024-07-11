@@ -3,6 +3,19 @@ import { query } from "./_generated/server"
 import { getUserByClerkId } from "./_utils"
 import { QueryCtx, MutationCtx } from "./_generated/server"
 import { Id } from "./_generated/dataModel"
+import CryptoJS from "crypto-js";
+
+const secretKey = process.env.CRYPTO_SECRET_KEY || "";
+
+const decryptMessageContent = (encryptedContent: string): string => {
+    try {
+        const bytes = CryptoJS.AES.decrypt(encryptedContent, secretKey);
+        return bytes.toString(CryptoJS.enc.Utf8);
+    } catch (error) {
+        console.error("Error decrypting message content:", error);
+        return "[Decryption Error]";
+    }
+};
 
 export const get = query({args: {}, handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -70,7 +83,10 @@ const getLastMessageDetails = async ({ctx, id}: {ctx: QueryCtx | MutationCtx; id
     if(!message) return null;
     const sender = await ctx.db.get(message.senderId)
     if(!sender) return null;
-    const content = getMessageContent(message.type, message.content as unknown as string)
+    const content = message.content.map((encryptedMessage: string) => {
+        const decryptedContent = decryptMessageContent(encryptedMessage);
+        return getMessageContent(message.type, decryptedContent);
+    });
 
     return {
         content,
